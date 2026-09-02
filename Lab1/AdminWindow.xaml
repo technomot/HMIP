@@ -1,0 +1,68 @@
+﻿<Window x:Class="PasswordProtectionApp.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Password Protection System - Administrator Mode"
+        Height="500" Width="760"
+        WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Administrator">
+                <MenuItem Header="_Change Administrator Password" Click="ChangeAdminPassword_Click"/>
+                <Separator/>
+                <MenuItem Header="_Add New User..." Click="AddUser_Click"/>
+                <MenuItem Header="_Block/Unblock Selected User" Click="ToggleBlock_Click"/>
+                <MenuItem Header="Enable/Disable _Restriction for Selected User" Click="ToggleRestriction_Click"/>
+                <MenuItem Header="Set Minimum _Length for Selected User..." Click="SetMinLength_Click"/>
+                <Separator/>
+                <MenuItem Header="View Selected User (_Detail)..." Click="ViewDetail_Click"/>
+                <Separator/>
+                <MenuItem Header="E_xit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About the program" Click="About_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button ToolTip="Change Administrator Password" Click="ChangeAdminPassword_Click" Padding="6,2">Change Admin Password</Button>
+                <Separator/>
+                <Button ToolTip="Add New User" Click="AddUser_Click" Padding="6,2">Add User</Button>
+                <Button ToolTip="Block/Unblock Selected User" Click="ToggleBlock_Click" Padding="6,2">Block/Unblock</Button>
+                <Button ToolTip="Enable/Disable Restriction" Click="ToggleRestriction_Click" Padding="6,2">Toggle Restriction</Button>
+                <Button ToolTip="Set Minimum Length" Click="SetMinLength_Click" Padding="6,2">Set Min Length</Button>
+                <Separator/>
+                <Button ToolTip="View Detail" Click="ViewDetail_Click" Padding="6,2">View Detail</Button>
+                <Separator/>
+                <Button ToolTip="Exit" Click="Exit_Click" Padding="6,2">Exit</Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusBarText"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Registered users (whole list). Select a row to act on it, or use 'View Detail' for a single-record view with First/Last navigation."
+                       TextWrapping="Wrap" Margin="0,0,0,8"/>
+
+            <DataGrid Grid.Row="1" x:Name="UsersGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                      SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="User Name" Binding="{Binding UserName}" Width="180"/>
+                    <DataGridCheckBoxColumn Header="Blocked" Binding="{Binding IsBlocked, Mode=OneWay}" Width="80"/>
+                    <DataGridCheckBoxColumn Header="Restriction Enabled" Binding="{Binding RestrictionEnabled, Mode=OneWay}" Width="140"/>
+                    <DataGridTextColumn Header="Min. Password Length" Binding="{Binding MinPasswordLength}" Width="150"/>
+                    <DataGridTextColumn Header="Password Set" Binding="{Binding PasswordSetDisplay}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
+</Window>
