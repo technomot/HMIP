@@ -1,0 +1,28 @@
+﻿<Window x:Class="PasswordProtectionApp.CharacterSampleLoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Character Verification"
+        Height="280" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,12"
+                   Text="For security, please enter only the requested individual characters from your password. The requested positions change on every login attempt."/>
+
+        <StackPanel Grid.Row="1" x:Name="FieldsPanel"/>
+
+        <TextBlock Grid.Row="2" x:Name="StatusText" Foreground="Red" TextWrapping="Wrap" Margin="0,8,0,0"/>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="OK" Width="90" Height="28" Margin="0,0,8,0" Click="OkButton_Click" IsDefault="True"/>
+            <Button Content="Cancel" Width="90" Height="28" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

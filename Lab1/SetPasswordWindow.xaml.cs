@@ -8,6 +8,7 @@ namespace PasswordProtectionApp
     {
         private readonly UserAccount _user;
         private readonly bool _isFirstLogin;
+
         public bool UserChoseExit { get; private set; } = false;
 
         public SetPasswordWindow(UserAccount user, bool isFirstLogin)
@@ -27,8 +28,10 @@ namespace PasswordProtectionApp
             }
 
             RuleText.Text = user.RestrictionEnabled
-                ? $"Requirements: at least {user.MinPasswordLength} character(s); must mix at least two of: " +
-                  "lowercase letters, uppercase letters, digits, punctuation, arithmetic signs (+-*/=)."
+                ? $"Character sampling is enabled for this account: at login you will be asked to enter " +
+                  $"{user.SampleSize} individual character(s) from this secret, at positions that change " +
+                  $"on every attempt. The secret must be at least {user.MinPasswordLength} character(s) long " +
+                  $"(and at least {user.SampleSize}, so there are enough positions to sample from)."
                 : $"Requirements: at least {user.MinPasswordLength} character(s).";
         }
 
@@ -56,7 +59,8 @@ namespace PasswordProtectionApp
                 return;
             }
 
-            var (isValid, message) = PasswordValidator.Validate(newPassword, _user.MinPasswordLength, _user.RestrictionEnabled);
+            var (isValid, message) = PasswordValidator.Validate(
+                newPassword, _user.MinPasswordLength, _user.SampleSize, _user.RestrictionEnabled);
 
             if (!isValid)
             {
@@ -100,6 +104,7 @@ namespace PasswordProtectionApp
             }
 
             _user.PasswordHash = PasswordHasher.Hash(newPassword);
+            _user.EncryptedSecret = SecretProtector.Encrypt(newPassword);
             App.Store.Save();
 
             DialogResult = true;

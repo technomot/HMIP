@@ -13,6 +13,7 @@
         public bool IsBlocked => Account.IsBlocked;
         public bool RestrictionEnabled => Account.RestrictionEnabled;
         public int MinPasswordLength => Account.MinPasswordLength;
+        public int SampleSize => Account.SampleSize;
         public string PasswordSetDisplay => Account.HasEmptyPassword ? "No (first login pending)" : "Yes";
     }
 }

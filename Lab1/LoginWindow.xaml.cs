@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using PasswordProtectionApp.Models;
 using PasswordProtectionApp.Services;
 
@@ -7,7 +10,6 @@ namespace PasswordProtectionApp
     public partial class LoginWindow : Window
     {
         private int _attemptsLeft = 3;
-        private UserAccount _pendingUser;
 
         public LoginWindow()
         {
@@ -52,7 +54,6 @@ namespace PasswordProtectionApp
 
             if (user.HasEmptyPassword)
             {
-                _pendingUser = user;
                 var setupDialog = new SetPasswordWindow(user, isFirstLogin: true) { Owner = this };
                 bool? setupResult = setupDialog.ShowDialog();
 
@@ -67,7 +68,11 @@ namespace PasswordProtectionApp
                 return;
             }
 
-            if (!PasswordHasher.Verify(password, user.PasswordHash))
+            bool authenticated = user.RestrictionEnabled
+                ? TryCharacterSamplingLogin(user)
+                : PasswordHasher.Verify(password, user.PasswordHash);
+
+            if (!authenticated)
             {
                 _attemptsLeft--;
                 if (_attemptsLeft <= 0)
@@ -87,10 +92,45 @@ namespace PasswordProtectionApp
             ProceedToMainWindow(user);
         }
 
+        private bool TryCharacterSamplingLogin(UserAccount user)
+        {
+            string secret = SecretProtector.Decrypt(user.EncryptedSecret);
+            if (string.IsNullOrEmpty(secret))
+                return false;
+
+            int sampleSize = Math.Min(user.SampleSize, secret.Length);
+            var positions = GenerateRandomPositions(secret.Length, sampleSize);
+
+            var challenge = new CharacterSampleLoginWindow(positions) { Owner = this };
+            bool? challengeResult = challenge.ShowDialog();
+
+            if (challengeResult != true)
+                return false;
+
+            for (int i = 0; i < positions.Count; i++)
+            {
+                if (challenge.EnteredCharacters[i] != secret[positions[i]])
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static List<int> GenerateRandomPositions(int secretLength, int count)
+        {
+            var random = new Random(Environment.TickCount);
+            var positions = new HashSet<int>();
+
+            while (positions.Count < count)
+                positions.Add(random.Next(secretLength));
+
+            return positions.OrderBy(p => p).ToList();
+        }
+
         private void ProceedToMainWindow(UserAccount user)
         {
             Window mainWindow;
-            if (user.UserName.Equals(UserStore.AdminUserName, System.StringComparison.OrdinalIgnoreCase))
+            if (user.UserName.Equals(UserStore.AdminUserName, StringComparison.OrdinalIgnoreCase))
                 mainWindow = new AdminWindow(user);
             else
                 mainWindow = new UserWindow(user);

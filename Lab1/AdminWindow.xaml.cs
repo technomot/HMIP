@@ -6,6 +6,16 @@ using PasswordProtectionApp.Services;
 
 namespace PasswordProtectionApp
 {
+    /// <summary>
+    /// Administrator mode main window:
+    ///  - change administrator password
+    ///  - view list of users and their parameters (whole list or single record with First/Last nav)
+    ///  - add a unique new user with an empty password
+    ///  - block/unblock a user
+    ///  - enable/disable character-sampling authentication (variant 6) per user
+    ///  - set minimum secret length and sample size per user
+    ///  - end the program (returns to the login screen)
+    /// </summary>
     public partial class AdminWindow : Window
     {
         private readonly UserAccount _admin;
@@ -88,7 +98,7 @@ namespace PasswordProtectionApp
             App.Store.Save();
             RefreshGrid();
             StatusBarText.Text =
-                $"Character-sampling restriction for '{user.UserName}' is now {(user.RestrictionEnabled ? "enabled" : "disabled")}.";
+                $"Character sampling for '{user.UserName}' is now {(user.RestrictionEnabled ? "enabled" : "disabled")}.";
         }
 
         private void SetMinLength_Click(object sender, RoutedEventArgs e)
@@ -97,6 +107,18 @@ namespace PasswordProtectionApp
             if (user == null) return;
 
             var dialog = new SetMinLengthWindow(user) { Owner = this };
+            if (dialog.ShowDialog() == true)
+            {
+                RefreshGrid();
+            }
+        }
+
+        private void SetSampleSize_Click(object sender, RoutedEventArgs e)
+        {
+            var user = GetSelectedUser();
+            if (user == null) return;
+
+            var dialog = new SetSampleSizeWindow(user) { Owner = this };
             if (dialog.ShowDialog() == true)
             {
                 RefreshGrid();
@@ -122,7 +144,9 @@ namespace PasswordProtectionApp
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            var login = new LoginWindow();
+            login.Show();
+            Close();
         }
     }
 }

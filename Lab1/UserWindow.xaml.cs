@@ -3,6 +3,11 @@ using PasswordProtectionApp.Models;
 
 namespace PasswordProtectionApp
 {
+    /// <summary>
+    /// Regular user mode window: only "change password" and "exit" are
+    /// available; all administrative functionality is inaccessible.
+    /// Exit returns to the login screen rather than closing the whole program.
+    /// </summary>
     public partial class UserWindow : Window
     {
         private readonly UserAccount _user;
@@ -32,7 +37,9 @@ namespace PasswordProtectionApp
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            var login = new LoginWindow();
+            login.Show();
+            Close();
         }
     }
 }
