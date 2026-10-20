@@ -1,0 +1,69 @@
+﻿<Window x:Class="Archiver.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Archiver - arithmetic coding" Height="580" Width="700"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="Compression" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Source file:" VerticalAlignment="Center"/>
+                <TextBox x:Name="SourceBox" Grid.Row="0" Grid.Column="1" Height="26" VerticalContentAlignment="Center" Margin="0,0,0,8"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="Browse" Width="80" Height="26" Margin="8,0,0,8" Click="BrowseSource_Click"/>
+
+                <TextBlock Grid.Row="1" Text="Archive:" VerticalAlignment="Center"/>
+                <TextBox x:Name="ArchiveBox" Grid.Row="1" Grid.Column="1" Height="26" VerticalContentAlignment="Center" Margin="0,0,0,8"/>
+                <Button Grid.Row="1" Grid.Column="2" Content="Browse" Width="80" Height="26" Margin="8,0,0,8" Click="BrowseArchiveOut_Click"/>
+
+                <Button x:Name="CompressButton" Grid.Row="2" Grid.Column="1" Content="Compress" Width="120" Height="30" HorizontalAlignment="Left" Click="Compress_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Header="Decompression" Padding="10" Margin="0,10,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Archive:" VerticalAlignment="Center"/>
+                <TextBox x:Name="ArchiveInBox" Grid.Row="0" Grid.Column="1" Height="26" VerticalContentAlignment="Center" Margin="0,0,0,8"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="Browse" Width="80" Height="26" Margin="8,0,0,8" Click="BrowseArchiveIn_Click"/>
+
+                <TextBlock Grid.Row="1" Text="Restore to:" VerticalAlignment="Center"/>
+                <TextBox x:Name="RestoredBox" Grid.Row="1" Grid.Column="1" Height="26" VerticalContentAlignment="Center" Margin="0,0,0,8"/>
+                <Button Grid.Row="1" Grid.Column="2" Content="Browse" Width="80" Height="26" Margin="8,0,0,8" Click="BrowseRestored_Click"/>
+
+                <Button x:Name="DecompressButton" Grid.Row="2" Grid.Column="1" Content="Decompress" Width="120" Height="30" HorizontalAlignment="Left" Click="Decompress_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <ProgressBar x:Name="Bar" Grid.Row="2" Height="18" Margin="0,12,0,12" Minimum="0" Maximum="100"/>
+
+        <TextBox x:Name="ResultBox" Grid.Row="3" IsReadOnly="True" FontFamily="Consolas" FontSize="13"
+                 TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Padding="6"/>
+    </Grid>
+</Window>
