@@ -1,0 +1,65 @@
+﻿<Window x:Class="PasswordProtectionApp.UserDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="User Detail"
+        Height="320" Width="484"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" x:Name="PositionText" FontWeight="Bold" Margin="0,0,0,10"/>
+
+        <Grid Grid.Row="1" Margin="0,0,0,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="User name:" FontWeight="SemiBold"/>
+            <TextBlock x:Name="NameText" Grid.Column="1"/>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,0,0,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Blocked:" FontWeight="SemiBold"/>
+            <TextBlock x:Name="BlockedText" Grid.Column="1"/>
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="0,0,0,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Restriction enabled:" FontWeight="SemiBold"/>
+            <TextBlock x:Name="RestrictionText" Grid.Column="1"/>
+        </Grid>
+
+        <Grid Grid.Row="4" Margin="0,0,0,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Minimum password length:" FontWeight="SemiBold"/>
+            <TextBlock x:Name="MinLengthText" Grid.Column="1"/>
+        </Grid>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="FirstButton" Content="|&lt; First" Width="80" Height="28" Margin="0,0,6,0" Click="First_Click"/>
+            <Button x:Name="PrevButton" Content="&lt; Prev" Width="80" Height="28" Margin="0,0,6,0" Click="Prev_Click"/>
+            <Button x:Name="NextButton" Content="Next &gt;" Width="80" Height="28" Margin="0,0,6,0" Click="Next_Click"/>
+            <Button x:Name="LastButton" Content="Last &gt;|" Width="80" Height="28" Margin="0,0,20,0" Click="Last_Click"/>
+            <Button Content="Close" Width="80" Height="28" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,38 @@
+﻿<Window x:Class="PasswordProtectionApp.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About the program"
+        Height="320" Width="440"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Password Protection System" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <TextBlock TextWrapping="Wrap" LineHeight="20">
+                <Run Text="Author: Mahammad Mammadov, Group KH-923i.e"/>
+                <LineBreak/>
+                <Run Text="Course: Hardware Means of Information Protection"/>
+                <LineBreak/>
+                <LineBreak/>
+                <Run Text="Individual task: Variant 6" FontWeight="Bold"/>
+                <LineBreak/>
+                <Run Text="No MOD 5 = 6 MOD 5 = 1 -&gt; Type of password protection: 'Character sampling'."/>
+                <LineBreak/>
+                <LineBreak/>
+                <Run Text="Description: the program supports administrator and regular user modes. The administrator can manage the list of registered users, block/unblock accounts, and enable or disable the 'character sampling' password restriction rule per user. When enabled, a chosen password must combine characters from at least two categories: lowercase letters, uppercase letters, digits, punctuation marks, and arithmetic signs (+ - * / =). Regular users may only change their own password."/>
+                <LineBreak/>
+                <LineBreak/>
+                <Run Text="Technology: C# / WPF (.NET 8)"/>
+            </TextBlock>
+        </ScrollViewer>
+
+        <Button Grid.Row="2" Content="Close" Width="90" Height="28" HorizontalAlignment="Right" Margin="0,10,0,0" Click="Close_Click" IsDefault="True" IsCancel="True"/>
+    </Grid>
+</Window>
